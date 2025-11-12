@@ -16,6 +16,7 @@ import { search } from "youtube-search-without-api-key";
 import { Plugins } from "./plugins.js";
 import { utils } from "./utils.js";
 import { wsapi } from "./wsapi.js";
+import { rm } from "fs/promises";
 
 /**
  * @file Creates the BrowserWindow
@@ -50,7 +51,7 @@ export class BrowserWindow {
         "pages/browse",
         "pages/groupings",
         "pages/charts",
-        //"pages/installed-themes",
+        "pages/installed-themes",
         "pages/listen_now",
         "pages/radio",
         "pages/home",
@@ -66,8 +67,8 @@ export class BrowserWindow {
         "pages/about",
         "pages/library-videos",
         "pages/remote-pair",
-        //"pages/themes-github",
-        //"pages/plugins-github",
+        "pages/themes-github",
+        "pages/plugins-github",
         "pages/replay",
         "pages/audiolabs",
         "pages/zoo",
@@ -832,7 +833,7 @@ export class BrowserWindow {
           }
           // if path is directory, delete it
           if (lstatSync(path).isDirectory()) {
-            await rmdirSync(path, { recursive: true });
+            await rm(path, { recursive: true });
           } else {
             // if path is file, delete it
             await unlinkSync(path);
@@ -887,7 +888,7 @@ export class BrowserWindow {
         let apiRepo = await utils.fetch(`https://api.github.com/repos/${repo}`).then((res) => res.json()) as { id: number };
         console.debug(`REPO ID: ${apiRepo.id}`);
         // extract the files from the first folder in the zip response
-        let zip = new AdmZip(await response.buffer());
+        let zip = new AdmZip(Buffer.from(await response.arrayBuffer()));
         let entry = zip.getEntries()[0];
         if (!existsSync(join(utils.getPath("plugins"), "gh_" + apiRepo.id))) {
           mkdirSync(join(utils.getPath("plugins"), "gh_" + apiRepo.id));

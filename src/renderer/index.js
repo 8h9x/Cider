@@ -90,20 +90,22 @@ function initMusicKit() {
 }
 
 function capiInit() {
-  const request = new XMLHttpRequest();
-  request.timeout = 5000;
-  request.addEventListener("load", initMusicKit);
-  request.onreadystatechange = function (aEvt) {
-    if (request.readyState == 4 && request.status != 200) {
-      if (localStorage.getItem("lastToken") != null) {
-        initMusicKit();
-      } else {
-        console.error(`Failed to load capi, cannot get token [${request.status}]`);
-      }
-    }
-  };
-  request.open("GET", "https://api.cider.sh/v1/");
-  request.send();
+  localStorage.setItem("lastToken", "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IldlYlBsYXlLaWQifQ.eyJpc3MiOiJBTVBXZWJQbGF5IiwiaWF0IjoxNzYxNjE4NTU1LCJleHAiOjE3Njg4NzYxNTUsInJvb3RfaHR0cHNfb3JpZ2luIjpbImFwcGxlLmNvbSJdfQ.Rag4lLqQl7vEi8FuEM7SsCW_lRzcndEobrdaFwN45O3G4ATnLchGSH2022CY-P-AccC-qlflcCukP_133uuMYA")
+  initMusicKit();
+  // const request = new XMLHttpRequest();
+  // request.timeout = 5000;
+  // request.addEventListener("load", initMusicKit);
+  // request.onreadystatechange = function (aEvt) {
+  //   if (request.readyState == 4 && request.status != 200) {
+  //     if (localStorage.getItem("lastToken") != null) {
+  //       initMusicKit();
+  //     } else {
+  //       console.error(`Failed to load capi, cannot get token [${request.status}]`);
+  //     }
+  //   }
+  // };
+  // request.open("GET", "https://api.cider.sh/v1/");
+  // request.send();
 }
 
 document.addEventListener("musickitloaded", function () {
@@ -196,7 +198,7 @@ var checkIfScrollIsStatic = setInterval(() => {
       // do something
     }
     position = document.getElementsByClassName("lyric-body")[0].scrollTop;
-  } catch (e) {}
+  } catch (e) { }
 }, 50);
 
 // WebGPU Console Notification

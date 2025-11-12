@@ -3,7 +3,6 @@ import os from "os";
 import { CiderReceiver } from "../base/castreceiver.js";
 import MediaRendererClient from "upnp-mediarenderer-client";
 import request from "request";
-// @ts-expect-error
 import castv2 from "castv2-client";
 import mdnsjs from "mdns-js";
 
